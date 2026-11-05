@@ -27,8 +27,10 @@ class ApiService {
    */
   async request(endpoint, options = {}) {
     const url = `${API_BASE_URL}${endpoint}`;
+    const token = typeof window !== 'undefined' ? localStorage.getItem('bookvilla_auth_token') : null;
     const headers = {
       'Content-Type': 'application/json',
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
       ...options.headers
     };
 
@@ -300,6 +302,54 @@ class ApiService {
       throw new Error(json.message || 'Cover upload failed');
     }
     return json.data;
+  }
+
+  /**
+   * User Authentication & Profile (MongoDB Full Stack Integration)
+   */
+  async login({ email, password }) {
+    const res = await this.request('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password })
+    });
+    return res.data;
+  }
+
+  async register(userData) {
+    const res = await this.request('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(userData)
+    });
+    return res.data;
+  }
+
+  async getProfile() {
+    const res = await this.request('/auth/profile');
+    return res.data;
+  }
+
+  async updateProfile(fields) {
+    const res = await this.request('/auth/profile', {
+      method: 'PUT',
+      body: JSON.stringify(fields)
+    });
+    return res.data;
+  }
+
+  async toggleWishlist(bookId) {
+    const res = await this.request(`/auth/wishlist/${bookId}`, {
+      method: 'POST'
+    });
+    return res.data;
+  }
+
+  async getUsers() {
+    try {
+      const res = await this.request('/auth/users');
+      return res.data;
+    } catch {
+      return [];
+    }
   }
 }
 

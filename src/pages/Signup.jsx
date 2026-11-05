@@ -29,11 +29,14 @@ export default function Signup() {
     }
   };
 
+  const [submitting, setSubmitting] = useState(false);
+
   const validate = () => {
     const newErrors = {};
     if (!formData.fullName.trim()) newErrors.fullName = 'Full legal name is required.';
     if (!formData.email.trim() || !formData.email.includes('@')) newErrors.email = 'A valid email is required.';
     if (!formData.password || formData.password.length < 6) newErrors.password = 'Password must be at least 6 characters.';
+    if (!formData.phone.trim()) newErrors.phone = 'Valid Indian mobile number is required.';
     if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Passwords do not match.';
     if (!formData.termsAccepted) newErrors.termsAccepted = 'You must accept the BookVilla Reader Charter.';
 
@@ -41,21 +44,25 @@ export default function Signup() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitError('');
 
     if (!validate()) return;
 
+    setSubmitting(true);
     try {
-      signup({
+      await signup({
         fullName: formData.fullName,
         email: formData.email,
-        password: formData.password
+        password: formData.password,
+        phone: formData.phone
       });
       navigate('/account');
     } catch (err) {
       setSubmitError(err.message || 'Signup failed.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -157,8 +164,8 @@ export default function Signup() {
           </div>
           {errors.termsAccepted && <span className="form-error" style={{ display: 'block', marginTop: '-0.5rem', marginBottom: '0.5rem' }}>{errors.termsAccepted}</span>}
 
-          <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%', marginTop: '0.5rem' }}>
-            Complete Registration &rarr;
+          <button type="submit" className="btn btn-primary btn-lg" disabled={submitting} style={{ width: '100%', marginTop: '0.5rem' }}>
+            {submitting ? 'Registering with MongoDB...' : 'Complete Registration →'}
           </button>
         </form>
 

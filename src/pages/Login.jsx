@@ -10,6 +10,8 @@ export default function Login() {
   const [errors, setErrors] = useState({});
   const [authError, setAuthError] = useState('');
 
+  const [submitting, setSubmitting] = useState(false);
+
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,7 +25,7 @@ export default function Login() {
     setAuthError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setAuthError('');
 
@@ -36,11 +38,14 @@ export default function Login() {
       return;
     }
 
+    setSubmitting(true);
     try {
-      login(email, password);
+      await login(email, password);
       navigate(from, { replace: true });
     } catch (err) {
-      setAuthError(err.message || 'Authentication failed.');
+      setAuthError(err.message || 'Authentication failed. Please check your credentials.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -114,8 +119,8 @@ export default function Login() {
             {errors.password && <span className="form-error">{errors.password}</span>}
           </div>
 
-          <button type="submit" className="btn btn-primary btn-lg" style={{ width: '100%', marginTop: '0.5rem' }}>
-            Sign In to BookVilla
+          <button type="submit" className="btn btn-primary btn-lg" disabled={submitting} style={{ width: '100%', marginTop: '0.5rem' }}>
+            {submitting ? 'Authenticating with MongoDB...' : 'Sign In to BookVilla'}
           </button>
         </form>
 

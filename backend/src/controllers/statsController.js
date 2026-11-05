@@ -1,5 +1,8 @@
 import { Book } from '../models/Book.js';
 import { Order } from '../models/Order.js';
+import { User } from '../models/User.js';
+import { Category } from '../models/Category.js';
+import { Contact } from '../models/Contact.js';
 import { ApiResponse } from '../utils/apiResponse.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
@@ -54,6 +57,9 @@ export const getCatalogOverview = asyncHandler(async (req, res) => {
   ]);
 
   const totalOrdersCount = await Order.countDocuments();
+  const totalUsersCount = await User.countDocuments();
+  const totalCategoriesCount = await Category.countDocuments();
+  const totalContactsCount = await Contact.countDocuments();
 
   const formattedOverview = {
     overview: catalogStats.totals[0] || {
@@ -65,7 +71,14 @@ export const getCatalogOverview = asyncHandler(async (req, res) => {
     },
     stockDistribution: catalogStats.stockStatus,
     formatDistribution: catalogStats.formatDistribution,
-    totalOrdersPlaced: totalOrdersCount
+    totalOrdersPlaced: totalOrdersCount,
+    databaseCollections: {
+      books: catalogStats.totals[0]?.totalBooks || 0,
+      categories: totalCategoriesCount,
+      orders: totalOrdersCount,
+      users: totalUsersCount,
+      contacts: totalContactsCount
+    }
   };
 
   res.status(200).json(new ApiResponse(200, formattedOverview, 'Catalog analytics retrieved via Aggregation Pipeline'));

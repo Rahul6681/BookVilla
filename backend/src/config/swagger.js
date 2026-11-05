@@ -38,6 +38,7 @@ export const swaggerDocument = {
     { name: 'Orders', description: 'Place orders, track delivery across 19,000+ Indian PIN codes' },
     { name: 'Stats & Aggregations', description: 'MongoDB Aggregation Pipelines for business intelligence' },
     { name: 'Uploads', description: 'Multer file uploads for book covers and folios' },
+    { name: 'Authentication', description: 'User registration, login, JWT issuance, and MongoDB profiles' },
     { name: 'Contact', description: 'Customer inquiries and Nodemailer acknowledgment' },
     { name: 'Health', description: 'System and database health diagnostics' }
   ],
@@ -50,6 +51,69 @@ export const swaggerDocument = {
           200: {
             description: 'API is healthy and operational'
           }
+        }
+      }
+    },
+    '/api/auth/register': {
+      post: {
+        tags: ['Authentication'],
+        summary: 'Register a new customer account in MongoDB',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['fullName', 'email', 'password'],
+                properties: {
+                  fullName: { type: 'string', example: 'Vikramaditya Roy' },
+                  email: { type: 'string', example: 'vikram.roy@example.in' },
+                  password: { type: 'string', example: 'SecretPass2026!' },
+                  phone: { type: 'string', example: '+91 98765 43210' },
+                  address: { type: 'string', example: 'Flat 4B, Ganga Vihar, Varanasi, UP' },
+                  pincode: { type: 'string', example: '221001' }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          201: { description: 'User successfully created in MongoDB with JWT token' },
+          409: { description: 'Email already exists' }
+        }
+      }
+    },
+    '/api/auth/login': {
+      post: {
+        tags: ['Authentication'],
+        summary: 'Authenticate credentials and issue JWT session token',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['email', 'password'],
+                properties: {
+                  email: { type: 'string', example: 'rahul.pandit@bookvilla.in' },
+                  password: { type: 'string', example: 'BookVilla2026!' }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          200: { description: 'Login successful, returns user profile and JWT' },
+          401: { description: 'Invalid email or password' }
+        }
+      }
+    },
+    '/api/auth/users': {
+      get: {
+        tags: ['Authentication'],
+        summary: 'List all registered customer accounts from MongoDB (Admin Telemetry)',
+        responses: {
+          200: { description: 'List of registered users from MongoDB' }
         }
       }
     },
