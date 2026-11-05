@@ -1,0 +1,25 @@
+{
+  "name": "bookstore-ecommerce",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "client": "vite",
+    "server": "npm --prefix backend run dev",
+    "server:start": "npm --prefix backend start",
+    "seed": "npm --prefix backend run seed",
+    "seed:destroy": "npm --prefix backend run seed:destroy",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.2"
+  }
+}

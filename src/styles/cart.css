@@ -1,0 +1,192 @@
+.cart-page {
+  padding: var(--space-2xl) 0 var(--space-3xl);
+}
+
+.cart-header {
+  margin-bottom: var(--space-xl);
+  border-bottom: 1.5px solid var(--bg-muted);
+  padding-bottom: var(--space-md);
+}
+
+.cart-title {
+  font-size: 2.2rem;
+  color: var(--color-primary-dark);
+}
+
+.cart-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: var(--space-2xl);
+  align-items: start;
+}
+
+/* Shipping meter */
+.shipping-meter-card {
+  background-color: var(--color-gold-subtle);
+  border: 1px solid rgba(200, 155, 60, 0.4);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.25rem;
+  margin-bottom: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.meter-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #7D5710;
+}
+
+.meter-bar-track {
+  height: 6px;
+  background-color: rgba(200, 155, 60, 0.25);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.meter-bar-fill {
+  height: 100%;
+  background-color: var(--color-gold);
+  border-radius: var(--radius-pill);
+  transition: width var(--transition-base);
+}
+
+/* Cart Items Container */
+.cart-items-container {
+  background-color: #FFFFFF;
+  border: 1.5px solid var(--bg-muted);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.cart-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--bg-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* Empty Cart State */
+.cart-empty-state {
+  text-align: center;
+  padding: var(--space-3xl) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.empty-cart-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--color-primary-subtle);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Order Summary Box */
+.cart-summary-card {
+  background-color: #FFFFFF;
+  border: 1.5px solid var(--bg-muted);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: calc(var(--header-height) + 20px);
+}
+
+.summary-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--color-primary);
+  border-bottom: 1px solid var(--bg-muted);
+  padding-bottom: var(--space-sm);
+  margin: 0;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  color: var(--text-charcoal);
+}
+
+.summary-line.discount {
+  color: var(--color-forest);
+  font-weight: 600;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-top: 2px solid var(--bg-muted);
+  padding-top: var(--space-md);
+  margin-top: 0.5rem;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+/* Coupon box */
+.coupon-box {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.coupon-input {
+  flex: 1;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.875rem;
+  border: 1px solid var(--bg-muted);
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+}
+
+.coupon-applied-badge {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-gold-subtle);
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  color: #7D5710;
+}
+
+.cart-guarantees {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--bg-muted);
+  padding-top: var(--space-md);
+}
+
+@media (max-width: 900px) {
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-summary-card {
+    position: static;
+  }
+}
