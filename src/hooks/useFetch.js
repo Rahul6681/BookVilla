@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
  * - Instant rendering with initial/cached data (Zero waiting time)
  * - Zero artificial delays (Simulated latency eliminated)
  * - Stale-while-revalidate pattern for seamless background updates
+ * - sourceRef prevents unnecessary re-fetches when passing inline arrow functions
  * - AbortController for race-condition prevention
  */
 export function useFetch(source, dependencies = [], initialData = null) {
@@ -14,24 +15,28 @@ export function useFetch(source, dependencies = [], initialData = null) {
   const [error, setError] = useState(null);
   const abortControllerRef = useRef(null);
 
+  // Keep latest reference to source without triggering re-fetch on every parent re-render
+  const sourceRef = useRef(source);
+  sourceRef.current = source;
+
   const executeFetch = useCallback(async () => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
     abortControllerRef.current = new AbortController();
 
-    // If we don't have initial data, set loading to true
     if (data === null) {
       setLoading(true);
     }
     setError(null);
 
     try {
-      if (typeof source === 'function') {
-        const result = await source();
+      const currentSource = sourceRef.current;
+      if (typeof currentSource === 'function') {
+        const result = await currentSource();
         setData(result);
-      } else if (typeof source === 'string') {
-        const response = await fetch(source, {
+      } else if (typeof currentSource === 'string') {
+        const response = await fetch(currentSource, {
           signal: abortControllerRef.current.signal
         });
         if (!response.ok) {
@@ -47,7 +52,8 @@ export function useFetch(source, dependencies = [], initialData = null) {
     } finally {
       setLoading(false);
     }
-  }, [source, ...dependencies]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, dependencies);
 
   useEffect(() => {
     executeFetch();

@@ -41,17 +41,19 @@ export default function Shop() {
   const { data: rawBooks, loading } = useFetch(
     async () => {
       const res = await api.getBooks({ limit: 50 });
-      return res.books;
+      return res?.books || res || MOCK_BOOKS;
     },
     [],
     MOCK_BOOKS
   );
 
-  // Filter and sort computation
+  // Filter and sort computation - defensively ensures booksArray is always a valid Array
   const filteredBooks = useMemo(() => {
-    if (!rawBooks) return [];
+    const booksArray = Array.isArray(rawBooks)
+      ? rawBooks
+      : (Array.isArray(rawBooks?.books) ? rawBooks.books : MOCK_BOOKS);
 
-    return rawBooks
+    return booksArray
       .filter(book => {
         // Category filter
         if (selectedCategory !== 'all' && book.category !== selectedCategory) {
@@ -60,9 +62,9 @@ export default function Shop() {
         // Search filter (title, author, or ISBN)
         if (searchQuery.trim()) {
           const query = searchQuery.toLowerCase();
-          const matchesTitle = book.title.toLowerCase().includes(query);
-          const matchesAuthor = book.author.toLowerCase().includes(query);
-          const matchesIsbn = book.isbn.toLowerCase().includes(query);
+          const matchesTitle = book.title?.toLowerCase().includes(query);
+          const matchesAuthor = book.author?.toLowerCase().includes(query);
+          const matchesIsbn = book.isbn?.toLowerCase().includes(query);
           if (!matchesTitle && !matchesAuthor && !matchesIsbn) return false;
         }
         // Price filter
@@ -83,7 +85,7 @@ export default function Shop() {
         if (sortBy === 'price-asc') return a.price - b.price;
         if (sortBy === 'price-desc') return b.price - a.price;
         if (sortBy === 'rating') return b.rating - a.rating;
-        if (sortBy === 'newest') return b.publishYear - a.publishYear;
+        if (sortBy === 'newest') return (b.publishYear || 0) - (a.publishYear || 0);
         // Default: featured first
         return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
       });
@@ -334,7 +336,7 @@ export default function Shop() {
           ) : (
             <div className="books-grid">
               {paginatedBooks.map(book => (
-                <BookCard key={book.id} book={book} />
+                <BookCard key={book.slug || book.id || book._id} book={book} />
               ))}
             </div>
           )}
