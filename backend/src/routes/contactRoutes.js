@@ -8,3 +8,4 @@ router.route('/')
   .post(submitContactInquiry);
 
 export default router;
+

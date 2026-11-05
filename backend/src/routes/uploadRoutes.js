@@ -8,3 +8,4 @@ const router = express.Router();
 router.post('/book-cover', uploadBookCover.single('cover'), uploadBookCoverImage);
 
 export default router;
+

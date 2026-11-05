@@ -37,3 +37,4 @@ export const getAllInquiries = asyncHandler(async (req, res) => {
   const inquiries = await Contact.find().sort({ createdAt: -1 });
   res.status(200).json(new ApiResponse(200, inquiries, 'Inquiries retrieved'));
 });
+

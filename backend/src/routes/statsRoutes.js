@@ -12,3 +12,4 @@ router.get('/categories', getCategoryStats);
 router.get('/authors', getTopAuthors);
 
 export default router;
+

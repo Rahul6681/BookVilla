@@ -393,3 +393,4 @@ export const setupSwagger = swaggerUi.setup(swaggerDocument, {
   `,
   customSiteTitle: 'BookVilla API Documentation'
 });
+

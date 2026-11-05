@@ -29,3 +29,4 @@ export const createCategory = asyncHandler(async (req, res) => {
   const category = await Category.create({ name, slug, description, icon });
   res.status(201).json(new ApiResponse(201, category, 'Category created'));
 });
+

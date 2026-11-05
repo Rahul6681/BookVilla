@@ -8,3 +8,4 @@ router.route('/')
   .post(createCategory);
 
 export default router;
+
