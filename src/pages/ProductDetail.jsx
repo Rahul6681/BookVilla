@@ -46,7 +46,7 @@ export default function ProductDetail() {
     return () => { isMounted = false; };
   }, [id]);
 
-  if (loading) {
+  if (loading && !book) {
     return (
       <main className="container detail-page" style={{ textAlign: 'center', padding: '5rem 1rem' }}>
         <h2>Retrieving Folio from Archives...</h2>

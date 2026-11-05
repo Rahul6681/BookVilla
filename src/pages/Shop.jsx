@@ -44,7 +44,7 @@ export default function Shop() {
       return res.books;
     },
     [],
-    120
+    MOCK_BOOKS
   );
 
   // Filter and sort computation
@@ -305,7 +305,7 @@ export default function Shop() {
           )}
 
           {/* Book Grid or Empty State */}
-          {loading ? (
+          {(loading && (!rawBooks || rawBooks.length === 0)) ? (
             <div className="skeleton-loader">
               <div className="spinner" />
               <p>Perusing the stacks...</p>

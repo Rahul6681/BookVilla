@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 /**
- * Custom hook for simulating or executing REST API data fetching.
- * Supports promises, simulated latency, AbortController, and refetching.
- *
- * @param {Function|string} source - An async function returning data or an API URL string
- * @param {Array} dependencies - Dependency array to trigger refetch
- * @param {number} simulatedLatency - Milliseconds to delay for realistic UX transitions
+ * High-performance data fetching hook.
+ * Features:
+ * - Instant rendering with initial/cached data (Zero waiting time)
+ * - Zero artificial delays (Simulated latency eliminated)
+ * - Stale-while-revalidate pattern for seamless background updates
+ * - AbortController for race-condition prevention
  */
-export function useFetch(source, dependencies = [], simulatedLatency = 200) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+export function useFetch(source, dependencies = [], initialData = null) {
+  const [data, setData] = useState(initialData);
+  const [loading, setLoading] = useState(initialData === null);
   const [error, setError] = useState(null);
   const abortControllerRef = useRef(null);
 
@@ -20,20 +20,14 @@ export function useFetch(source, dependencies = [], simulatedLatency = 200) {
     }
     abortControllerRef.current = new AbortController();
 
-    setLoading(true);
+    // If we don't have initial data, set loading to true
+    if (data === null) {
+      setLoading(true);
+    }
     setError(null);
 
     try {
       if (typeof source === 'function') {
-        // Simulated latency to mirror realistic network response
-        await new Promise((resolve, reject) => {
-          const timer = setTimeout(resolve, simulatedLatency);
-          abortControllerRef.current.signal.addEventListener('abort', () => {
-            clearTimeout(timer);
-            reject(new DOMException('Aborted', 'AbortError'));
-          });
-        });
-
         const result = await source();
         setData(result);
       } else if (typeof source === 'string') {
@@ -44,7 +38,7 @@ export function useFetch(source, dependencies = [], simulatedLatency = 200) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const json = await response.json();
-        setData(json);
+        setData(json.data || json);
       }
     } catch (err) {
       if (err.name !== 'AbortError') {
@@ -53,7 +47,7 @@ export function useFetch(source, dependencies = [], simulatedLatency = 200) {
     } finally {
       setLoading(false);
     }
-  }, [source, simulatedLatency, ...dependencies]);
+  }, [source, ...dependencies]);
 
   useEffect(() => {
     executeFetch();

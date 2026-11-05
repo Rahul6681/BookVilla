@@ -7,15 +7,17 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Route-level code splitting using React.lazy
-const Home = lazy(() => import('./pages/Home'));
-const Shop = lazy(() => import('./pages/Shop'));
-const ProductDetail = lazy(() => import('./pages/ProductDetail'));
-const Cart = lazy(() => import('./pages/Cart'));
-const Checkout = lazy(() => import('./pages/Checkout'));
-const Login = lazy(() => import('./pages/Login'));
-const Signup = lazy(() => import('./pages/Signup'));
-const Account = lazy(() => import('./pages/Account'));
+// Directly import core storefront pages for instant 0ms route transitions
+import Home from './pages/Home';
+import Shop from './pages/Shop';
+import ProductDetail from './pages/ProductDetail';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Account from './pages/Account';
+
+// Auxiliary development tool loaded on demand
 const Portal = lazy(() => import('./pages/Portal'));
 
 // Helper to scroll to top on route change
@@ -27,18 +29,6 @@ function ScrollToTop() {
   return null;
 }
 
-// Suspense loading fallback
-function PageLoader() {
-  return (
-    <div className="skeleton-loader" role="status" aria-live="polite">
-      <div className="spinner" />
-      <p style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-primary)' }}>
-        Retrieving folio from archives...
-      </p>
-    </div>
-  );
-}
-
 export default function App() {
   return (
     <ErrorBoundary>
@@ -47,35 +37,40 @@ export default function App() {
           <BrowserRouter>
             <ScrollToTop />
             <Navbar />
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/shop" element={<Shop />} />
-                <Route path="/book/:id" element={<ProductDetail />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route
-                  path="/checkout"
-                  element={
-                    <ProtectedRoute>
-                      <Checkout />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route
-                  path="/account"
-                  element={
-                    <ProtectedRoute>
-                      <Account />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route path="/portal" element={<Portal />} />
-                {/* Fallback route */}
-                <Route path="*" element={<Home />} />
-              </Routes>
-            </Suspense>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/book/:id" element={<ProductDetail />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route
+                path="/checkout"
+                element={
+                  <ProtectedRoute>
+                    <Checkout />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route
+                path="/account"
+                element={
+                  <ProtectedRoute>
+                    <Account />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/portal"
+                element={
+                  <Suspense fallback={<div style={{ padding: '3rem', textAlign: 'center' }}>Loading Architecture Portal...</div>}>
+                    <Portal />
+                  </Suspense>
+                }
+              />
+              {/* Fallback route */}
+              <Route path="*" element={<Home />} />
+            </Routes>
             <Footer />
           </BrowserRouter>
         </CartProvider>

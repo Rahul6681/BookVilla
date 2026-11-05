@@ -192,3 +192,6 @@ export async function sendContactReceiptEmail({ name, email, subject, message })
   }
 }
 
+
+// Pre-warm transporter on server boot for instant 0ms order response
+getTransporter().catch(() => {});
