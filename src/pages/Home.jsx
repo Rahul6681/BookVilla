@@ -78,6 +78,10 @@ export default function Home() {
                   className="showcase-cover-img"
                   loading="eager"
                   decoding="async"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://upload.wikimedia.org/wikipedia/en/1/1e/Thegodofsmallthings.jpg';
+                  }}
                 />
               </div>
               <div className="showcase-info">
@@ -87,8 +91,8 @@ export default function Home() {
                 <p className="showcase-synopsis">{featuredBook.synopsis?.slice(0, 160)}...</p>
                 <div className="showcase-actions">
                   <span className="showcase-price">₹{featuredBook.price}</span>
-                  <Link to={`/book/${featuredBook.slug || featuredBook.id || featuredBook._id}`} className="btn btn-primary btn-sm">
-                    Read Folio Details
+                  <Link to={`/book/${featuredBook.slug || featuredBook.id || featuredBook._id}`} className="showcase-btn">
+                    Read Folio Details &rarr;
                   </Link>
                 </div>
               </div>

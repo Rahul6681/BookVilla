@@ -56,7 +56,7 @@ export const SEED_BOOKS = [
     format: 'Paperback',
     inStock: true,
     stockCount: 26,
-    coverImage: 'https://covers.openlibrary.org/b/id/8282361-L.jpg',
+    coverImage: 'https://upload.wikimedia.org/wikipedia/en/1/1e/Thegodofsmallthings.jpg',
     featured: true,
     trending: true,
     newArrival: false,
