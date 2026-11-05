@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 /**
- * Unit V: Data Modelling & Relationships
+ * Data Modelling & Relationships
  * Order Schema representing purchases with Indian delivery PIN codes,
  * GST breakdown, payment method, and item relationships.
  */

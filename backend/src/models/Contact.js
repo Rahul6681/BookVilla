@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 /**
- * Unit V: Contact & Customer Inquiries Schema
+ * Contact & Customer Inquiries Schema
  */
 const contactSchema = new mongoose.Schema(
   {

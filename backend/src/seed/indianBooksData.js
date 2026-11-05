@@ -1,5 +1,5 @@
 /**
- * Indian Literature Dataset for BookVilla (CAP646 Unit V Database Seeder)
+ * Indian Literature Dataset for BookVilla (BookVilla Enterprise Module Database Seeder)
  * 100% authentic Indian books, authors, publishers, prices (INR ₹), and Indian addresses.
  */
 

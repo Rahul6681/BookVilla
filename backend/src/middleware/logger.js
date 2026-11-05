@@ -1,5 +1,5 @@
 /**
- * Unit IV: Logging and Debugging Middleware
+ * Logging and Debugging Middleware
  * Formats incoming HTTP requests with timestamps, HTTP method, URL, and response latency.
  */
 export const requestLogger = (req, res, next) => {

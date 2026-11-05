@@ -1,5 +1,5 @@
 /**
- * Unit IV: Error Handling Architecture
+ * Error Handling Architecture
  * Custom ApiError class for operational, trusted errors with HTTP status codes.
  */
 export class ApiError extends Error {

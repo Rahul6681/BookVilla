@@ -1,5 +1,5 @@
 /**
- * Unit IV: REST API Response Standardizer
+ * REST API Response Standardizer
  * Ensures uniform JSON structure across all API endpoints:
  * { success: true, statusCode: 200, message: "...", data: ..., pagination?: ... }
  */

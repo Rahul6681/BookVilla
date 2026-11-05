@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 let isConnected = false;
 
 /**
- * Unit V: MongoDB & Mongoose Architecture
+ * MongoDB & Mongoose Architecture
  * Connects to MongoDB (Local or MongoDB Atlas) using Mongoose ODM.
  */
 export async function connectDB() {

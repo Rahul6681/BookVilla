@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 /**
- * Unit V: Mongoose ODM & Schema Validation
+ * Mongoose ODM & Schema Validation
  * Category Schema for organizing Indian folios and collections
  */
 const categorySchema = new mongoose.Schema(

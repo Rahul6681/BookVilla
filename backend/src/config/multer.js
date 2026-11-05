@@ -14,7 +14,7 @@ if (!fs.existsSync(uploadDirectory)) {
 }
 
 /**
- * Unit IV: File Upload using Multer
+ * File Upload using Multer
  * Disk storage configuration with unique filename hashing
  */
 const storage = multer.diskStorage({

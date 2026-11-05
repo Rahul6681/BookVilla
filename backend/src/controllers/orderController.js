@@ -7,10 +7,10 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 import { sendOrderConfirmationEmail } from '../utils/emailService.js';
 
 /**
- * Unit IV & Unit V: Order Controller
+ * Enterprise Module & Order Controller
  * Features:
- * - Unit V Transactions (Introduction): Atomic stock verification and inventory decrement
- * - Unit IV Nodemailer: Dispatches branded Indian invoice upon order creation
+ * - Enterprise Module Transactions (Introduction): Atomic stock verification and inventory decrement
+ * - Enterprise Module Nodemailer: Dispatches branded Indian invoice upon order creation
  */
 
 // @desc    Place a new order
@@ -39,7 +39,7 @@ export const createOrder = asyncHandler(async (req, res) => {
 
   const orderNumber = `BV-2026-${Math.floor(1000 + Math.random() * 9000)}`;
 
-  // Unit V: Transaction Demonstration
+  // Transaction Demonstration
   // Checks if MongoDB deployment supports multi-document transactions (Replica Set / Atlas)
   // Gracefully falls back to atomic document updates on standalone development instances.
   const isReplicaSet = mongoose.connection?.client?.topology?.description?.type === 'ReplicaSetWithPrimary' 
@@ -121,7 +121,7 @@ export const createOrder = asyncHandler(async (req, res) => {
       newOrder = await Order.create(orderData);
     }
 
-    // 3. Unit IV: Trigger Nodemailer confirmation email asynchronously
+    // 3. Trigger Nodemailer confirmation email asynchronously
     sendOrderConfirmationEmail(newOrder).catch((e) =>
       console.error('[EMAIL] Background dispatch failed:', e.message)
     );

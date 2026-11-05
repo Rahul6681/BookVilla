@@ -22,7 +22,7 @@ export const submitContactInquiry = asyncHandler(async (req, res) => {
     message
   });
 
-  // Unit IV: Send Nodemailer confirmation receipt
+  // Send Nodemailer confirmation receipt
   sendContactReceiptEmail({ name, email, subject, message }).catch((err) =>
     console.error('[EMAIL] Contact email failed:', err.message)
   );

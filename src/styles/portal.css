@@ -1,0 +1,254 @@
+/* BookVilla Publisher & Operations Studio Styles */
+.portal-container {
+  padding: 2.5rem 1rem 5rem;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.portal-header {
+  margin-bottom: 2.5rem;
+  border-bottom: 1.5px solid var(--bg-muted);
+  padding-bottom: 1.75rem;
+}
+
+.portal-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.portal-title {
+  font-family: var(--font-serif);
+  color: var(--color-primary-dark);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 700;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.portal-subtitle {
+  color: var(--text-muted);
+  font-size: 1rem;
+  max-width: 820px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.portal-header-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.portal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 2rem;
+}
+
+.portal-card {
+  background: var(--bg-surface);
+  padding: 1.75rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1.5px solid var(--bg-muted);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.portal-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.portal-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.portal-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-gold-subtle);
+  color: var(--color-gold-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.portal-card-title {
+  font-size: 1.25rem;
+  margin: 0 0 0.2rem;
+  font-family: var(--font-serif);
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
+
+.portal-card-desc {
+  font-size: 0.825rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Metric Tiles inside Section 1 */
+.portal-metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.portal-metric-tile {
+  background: var(--bg-surface-alt);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(200, 155, 60, 0.15);
+}
+
+.portal-metric-label {
+  font-size: 0.725rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.portal-metric-val {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.portal-table-wrap {
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--bg-muted);
+  border-radius: var(--radius-md);
+}
+
+.portal-table {
+  width: 100%;
+  font-size: 0.825rem;
+  border-collapse: collapse;
+}
+
+.portal-table th {
+  background: var(--bg-surface-alt);
+  padding: 8px 10px;
+  font-weight: 600;
+  color: var(--text-charcoal);
+  border-bottom: 1.5px solid var(--bg-muted);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+.portal-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--bg-muted);
+  color: var(--text-ink);
+}
+
+.portal-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Upload Dropzone inside Section 2 */
+.portal-dropzone {
+  display: block;
+  border: 2px dashed var(--color-gold);
+  border-radius: var(--radius-md);
+  padding: 1.75rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  background: var(--bg-parchment);
+  margin: 1rem 0;
+  transition: all var(--transition-base);
+}
+
+.portal-dropzone:hover {
+  background: var(--color-gold-subtle);
+  border-color: var(--color-gold-hover);
+}
+
+.portal-dropzone-icon {
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.portal-dropzone-title {
+  font-weight: 600;
+  color: var(--color-primary);
+  display: block;
+  font-size: 0.95rem;
+}
+
+.portal-dropzone-hint {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.portal-upload-result {
+  background: var(--bg-parchment);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-gold);
+  margin-top: 0.5rem;
+}
+
+.portal-upload-success-label {
+  font-weight: 700;
+  color: var(--color-forest);
+  display: block;
+  margin-bottom: 0.6rem;
+  font-size: 0.85rem;
+}
+
+/* Form inputs inside Section 3 */
+.portal-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.85rem;
+}
+
+.portal-form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-charcoal);
+}
+
+.portal-form-input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--bg-muted);
+  font-size: 0.85rem;
+  background-color: var(--bg-surface);
+  transition: border-color var(--transition-fast);
+}
+
+.portal-form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-subtle);
+}
+
+@media (max-width: 768px) {
+  .portal-grid {
+    grid-template-columns: 1fr;
+  }
+}

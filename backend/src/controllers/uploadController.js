@@ -3,7 +3,7 @@ import { ApiError } from '../utils/apiError.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
 /**
- * Unit IV: File Upload using Multer Controller
+ * File Upload using Multer Controller
  */
 export const uploadBookCoverImage = asyncHandler(async (req, res) => {
   if (!req.file) {

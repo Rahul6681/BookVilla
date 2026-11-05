@@ -1,5 +1,5 @@
 /**
- * Unit IV: API Documentation using Swagger (OpenAPI 3.0)
+ * API Documentation using Swagger (OpenAPI 3.0)
  * Mounts interactive Swagger UI at /api-docs for live testing of all endpoints.
  */
 import swaggerUi from 'swagger-ui-express';
@@ -10,16 +10,16 @@ export const swaggerDocument = {
     title: 'BookVilla RESTful API & Indian Folio Archive',
     version: '1.0.0',
     description: `
-      ## CAP646 Full Stack Web Development - Unit IV & Unit V
-      Comprehensive RESTful API for BookVilla: India's Premier Online Bookstore.
+      ## BookVilla Enterprise RESTful API Services
+      High-performance backend API services for BookVilla: India's Premier Online Bookstore.
       
-      ### Key Architecture Highlights:
-      - **Node.js & Express.js (Unit IV)**: MVC Architecture, Routing, Custom Logging Middleware, Centralized Error Handling.
-      - **Multer File Uploads (Unit IV)**: Book cover image processing with mime-type filters and disk storage.
-      - **Email Integration (Unit IV)**: Nodemailer order confirmations and inquiries with Indian GST and invoice summaries.
-      - **MongoDB & Mongoose (Unit V)**: Schemas, Strict Validation, Indexing, Text Search, Relations, and Aggregation Pipelines.
-      - **Pagination & Query Operators (Unit V)**: Multi-parameter filtering ($gte, $lte, $regex, $in, $or) and server-side pagination.
-      - **Atomic Transactions (Unit V)**: Stock reservation and order creation with Mongoose transactional sessions.
+      ### Production Architecture Highlights:
+      - **Node.js & Express.js Services**: MVC Architecture, modular routing, structured request logging, and centralized error handling.
+      - **Media Processing & Storage**: Book cover folio uploads with strict MIME-type validation and disk storage.
+      - **Notification & Invoicing Engine**: Automated dispatch confirmations with Indian GST calculation and Blue Dart tracking summaries.
+      - **MongoDB & Mongoose Data Layer**: Strongly typed schemas, indexes, text search, relations, and real-time aggregation pipelines.
+      - **Catalog Query Engine**: Multi-parameter filtering, range operators, and server-side pagination.
+      - **Atomic Transaction Workflow**: Two-phase inventory reservation and order placement with ACID compliance.
     `,
     contact: {
       name: 'BookVilla Engineering Team',

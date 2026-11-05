@@ -4,7 +4,7 @@ import { ApiResponse } from '../utils/apiResponse.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
 /**
- * Unit V: Aggregation Pipeline Endpoints
+ * Aggregation Pipeline Endpoints
  * Demonstrates advanced MongoDB aggregation operators:
  * $group, $sort, $project, $facet, $match, $unwind
  */

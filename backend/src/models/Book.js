@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 /**
- * Unit V: Subdocument Schema for Reviews
+ * Subdocument Schema for Reviews
  * Demonstrates embedded data modeling in MongoDB
  */
 const reviewSchema = new mongoose.Schema(
@@ -40,7 +40,7 @@ const reviewSchema = new mongoose.Schema(
 );
 
 /**
- * Unit V: Book Schema with Mongoose ODM
+ * Book Schema with Mongoose ODM
  * Demonstrates:
  * - Data Types & Strict Validation
  * - Indexing (Single, Compound, and Full-Text Search)

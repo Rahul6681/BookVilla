@@ -1,5 +1,5 @@
 /**
- * Unit IV: Email Integration using Nodemailer
+ * Email Integration using Nodemailer
  * Configures SMTP transport, creates styled Indian-themed HTML templates,
  * and handles order confirmations and customer inquiry emails.
  */

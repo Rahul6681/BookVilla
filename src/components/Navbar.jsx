@@ -60,8 +60,8 @@ export default function Navbar() {
           <NavLink to="/shop?category=heritage-epics" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
             Heritage &amp; Epics
           </NavLink>
-          <NavLink to="/portal" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} style={{ color: 'var(--color-secondary)' }}>
-            ⚡ DB &amp; Backend API
+          <NavLink to="/portal" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+            Publisher Studio
           </NavLink>
         </nav>
 
@@ -151,7 +151,7 @@ export default function Navbar() {
             <NavLink to="/shop?category=indian-literature" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Indian Fiction</NavLink>
             <NavLink to="/shop?category=heritage-epics" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Heritage &amp; Epics</NavLink>
             <NavLink to="/shop?category=history-biography" className="nav-link" onClick={() => setMobileMenuOpen(false)}>History &amp; Biographies</NavLink>
-            <NavLink to="/portal" className="nav-link" onClick={() => setMobileMenuOpen(false)}>⚡ DB &amp; Backend API</NavLink>
+            <NavLink to="/portal" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Publisher Studio</NavLink>
             <NavLink to="/account" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Account &amp; Orders</NavLink>
           </nav>
         </div>

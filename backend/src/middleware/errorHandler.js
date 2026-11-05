@@ -1,7 +1,7 @@
 import { ApiError } from '../utils/apiError.js';
 
 /**
- * Unit IV: 404 Not Found Middleware
+ * 404 Not Found Middleware
  */
 export const notFound = (req, res, next) => {
   const error = new ApiError(404, `API route not found: ${req.method} ${req.originalUrl}`);
@@ -9,7 +9,7 @@ export const notFound = (req, res, next) => {
 };
 
 /**
- * Unit IV: Centralized Error Handling Middleware
+ * Centralized Error Handling Middleware
  * Gracefully handles:
  * - Custom ApiError
  * - Mongoose CastError (invalid ObjectId)

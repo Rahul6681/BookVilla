@@ -5,7 +5,7 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 import mongoose from 'mongoose';
 
 /**
- * Unit IV & Unit V: Book Controller (REST API + MongoDB CRUD + Query Operators + Pagination)
+ * Enterprise Module & Book Controller (REST API + MongoDB CRUD + Query Operators + Pagination)
  */
 
 // @desc    Get all books with server-side pagination, multi-field filtering, search, and sorting
@@ -18,7 +18,7 @@ export const getAllBooks = asyncHandler(async (req, res) => {
 
   const { search, category, minPrice, maxPrice, minRating, inStock, sortBy } = req.query;
 
-  // Build MongoDB query filter using Unit V Query Operators ($gte, $lte, $regex, $options, $or, $in)
+  // Build MongoDB query filter using Enterprise Module Query Operators ($gte, $lte, $regex, $options, $or, $in)
   const filter = {};
 
   if (category && category !== 'all') {

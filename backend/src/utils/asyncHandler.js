@@ -1,5 +1,5 @@
 /**
- * Unit IV: Error Handling Middleware Utility
+ * Error Handling Middleware Utility
  * Higher-order function eliminating repetitive try-catch blocks in Express controllers.
  */
 export const asyncHandler = (requestHandler) => {
