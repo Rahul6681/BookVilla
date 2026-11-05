@@ -4,8 +4,7 @@
 [![API Documentation](https://img.shields.io/badge/Swagger-OpenAPI%203.0-85EA2D?style=for-the-badge&logo=swagger)](http://localhost:5000/api-docs)
 [![License: ISC](https://img.shields.io/badge/License-ISC-C5A059?style=for-the-badge)](LICENSE)
 
-> **CAP646 — Full Stack Web Development**  
-> An end-to-end full-stack e-commerce web application dedicated exclusively to Indian literature, philosophy, translated classics, and regional contemporary works. Built adhering strictly to modern industry patterns and the academic curriculum from **Unit I through Unit V**.
+> An end-to-end full-stack e-commerce web application dedicated exclusively to Indian literature, philosophy, translated classics, and regional contemporary works. Built adhering strictly to modern production industry patterns.
 
 ---
 
@@ -19,41 +18,34 @@ BookVilla is crafted to celebrate and preserve the rich literary heritage of Ind
 
 ---
 
-## 🏛️ Syllabus Architecture Alignment (Units I – V)
+## ✨ Key Features & Technical Highlights
 
-### 🎨 Unit I: Web Foundations & Responsive Front-End Development
+### 🎨 Responsive & Elegant Front-End
 - Semantic HTML5 elements (`<header>`, `<nav>`, `<main>`, `<article>`, `<aside>`, `<footer>`).
 - Custom CSS3 variables (`variables.css`) defining an Indian heritage palette (Deep Forest Green `#1E3A2F`, Antique Parchment `#FDFBF7`, Rich Terracotta Rust `#8F2D19`, Heritage Gold `#C5A059`).
 - Responsive design via CSS Grid and Flexbox with mobile-first media queries (`@media (max-width: 768px)`).
+- Component-driven React architecture (`BookCard`, `CartItem`, `Navbar`, `Footer`, `ErrorBoundary`, `ProtectedRoute`).
+- Context API for global state (`AuthContext`, `CartContext`), custom hooks (`useFetch`, `useCart`, `useAuth`).
+- React Router v6 with route-level code splitting via `React.lazy` and `Suspense` fallbacks.
+- Client-side cart operations, dynamic filtering, multi-field search, and instant sorting.
 
-### ⚡ Unit II: Modern JavaScript (ES6+) & DOM Programming
-- Modular ES6+ architecture (`import` / `export`), async/await, Promise handling, array destructing, spread/rest operators.
-- Browser `localStorage` and `sessionStorage` management for persistent cart state and patron session data.
-
-### ⚛️ Unit III: React Front-End Development
-- **Component-Driven Architecture**: Modular components (`BookCard`, `CartItem`, `Navbar`, `Footer`, `ErrorBoundary`, `ProtectedRoute`).
-- **State Management & Custom Hooks**: Context API (`AuthContext`, `CartContext`), custom hooks (`useFetch`, `useCart`, `useAuth`).
-- **React Router v6**: Client-side routing with code-splitting via `React.lazy` and `Suspense` fallbacks.
-- **Client-Side CRUD Interface**: Cart operations, dynamic filtering, multi-field search, client sorting.
-
-### 🚀 Unit IV: Server-Side Development with Node.js & Express.js
+### 🚀 Robust Server-Side Architecture (Node.js & Express)
 - **MVC Architecture**: Models, Controllers, Routes, and Middleware strictly segregated.
-- **RESTful API Development**: Clean REST URI designs and HTTP status codes (`200 OK`, `201 Created`, `400 Bad Request`, `404 Not Found`, `409 Conflict`, `500 Internal Error`).
+- **RESTful API Development**: Clean REST URI designs and standardized JSON responses.
 - **File Upload using Multer**: Configured with `multer.diskStorage`, mime-type validation (JPEG, PNG, WEBP), and 5MB size limits, serving static folios from `/uploads/books/`.
-- **Email Integration using Nodemailer**: Automated dispatch of HTML invoices with Indian PIN codes, Blue Dart tracking, and GST breakdown via SMTP / Ethereal mailer.
+- **Email Integration using Nodemailer**: Automated dispatch of HTML invoices with Indian PIN codes, Blue Dart tracking, and 5% GST breakdown via SMTP / Ethereal mailer.
 - **Centralized Error Handling**: Custom `ApiError` class, `asyncHandler` wrapper, and global error middleware catching CastErrors and duplicate keys.
 - **Logging & Debugging**: HTTP request logging using `morgan` alongside custom color-coded timestamp request logs.
 - **API Documentation using Swagger**: Interactive OpenAPI 3.0 specification explorer hosted live at `/api-docs`.
 
-### 🍃 Unit V: MongoDB, Mongoose ODM & Full Stack Integration
-- **Mongoose ODM & Strict Validation**: Schemas for `Book`, `Category`, `Order`, `Review`, and `Contact` with regex validations (Indian phone numbers, 6-digit postal PIN codes).
+### 🍃 Database Engineering (MongoDB & Mongoose ODM)
+- **Strict Schema Validation**: Mongoose schemas for `Book`, `Category`, `Order`, `Review`, and `Contact` with regex validations (Indian phone numbers, 6-digit postal PIN codes).
 - **Embedded Subdocuments & Relationships**: Book reviews modeled as embedded subdocuments; orders referencing books and customers.
 - **Indexing & Full-Text Search**: Mongoose compound text search indexes across `title`, `author`, and `synopsis`, alongside compound sorting indexes.
 - **Aggregation Pipelines**: Real MongoDB aggregations (`$group`, `$project`, `$facet`, `$sort`, `$limit`) calculating total inventory valuation in INR, category distribution, and top author metrics.
 - **Server-Side Pagination**: Standard pagination parameters (`page`, `limit`, `skip`) returning pagination metadata (`totalItems`, `totalPages`, `hasNextPage`, `hasPrevPage`).
-- **Transactions Demonstration**: Inventory verification and stock decrement session workflows.
-- **Full-Stack Integration & Proxy**: Vite reverse-proxy configuration (`vite.config.js`) forwarding `/api` and `/uploads` to Express on port 5000, with graceful offline fallback.
-- **Git Version Control**: Structured `.gitignore` keeping secrets and build artifacts safe with clean commits.
+- **Inventory & Stock Management**: Real-time stock verification and atomic decrement workflows upon order placement.
+- **Full-Stack Integration & Proxy**: Vite reverse-proxy configuration forwarding `/api` and `/uploads` to Express on port 5000 with offline fallback.
 
 ---
 
@@ -248,6 +240,6 @@ npm run client
 
 ---
 
-## 📜 Academic Integrity & License
-Developed as part of **CAP646: Full Stack Web Development (CA1 Assessment)**.  
+## 📜 License
 Licensed under the [ISC License](LICENSE).
+
