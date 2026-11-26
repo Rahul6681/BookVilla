@@ -1,6 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -30,11 +32,51 @@ const PORT = process.env.PORT || 5000;
 // Connect to MongoDB Database
 connectDB();
 
-// Built-in & Third-Party Middlewares
-app.use(cors({
-  origin: process.env.CLIENT_URL || '*',
-  credentials: true
-}));
+// Security HTTP Headers with Helmet
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' }, // Allows uploaded book covers to load cross-origin
+    contentSecurityPolicy: false // Allows Swagger UI and local development
+  })
+);
+
+// CORS Configuration
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || '*',
+    credentials: true
+  })
+);
+
+// Global API Rate Limiting (Prevents DoS and abuse)
+const globalApiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 300, // Limit each IP to 300 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    status: 429,
+    success: false,
+    message: 'Too many requests from this IP address. Please try again after 15 minutes.'
+  }
+});
+app.use('/api', globalApiLimiter);
+
+// Strict Auth Limiter (Prevents credential brute-forcing)
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30, // 30 login/register attempts per IP per 15 minutes
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    status: 429,
+    success: false,
+    message: 'Too many authentication attempts. Please try again in 15 minutes.'
+  }
+});
+app.use('/api/auth/login', authLimiter);
+app.use('/api/auth/register', authLimiter);
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -53,7 +95,13 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
-    service: 'BookVilla RESTful API',
+    service: 'BookVilla Production RESTful API',
+    security: {
+      helmet: 'enabled',
+      rateLimiting: 'active (300 req/15min)',
+      cors: 'configured',
+      jwt: 'HS256'
+    },
     database: {
       status: checkDbStatus() ? 'connected' : 'connecting/disconnected',
       engine: 'MongoDB with Mongoose ODM'
@@ -91,8 +139,8 @@ app.listen(PORT, () => {
   console.log(`📚 Swagger Documentation at:       http://localhost:${PORT}/api-docs`);
   console.log(`🩺 Health check endpoint:          http://localhost:${PORT}/api/health`);
   console.log(`📁 Uploads served at:              http://localhost:${PORT}/uploads`);
+  console.log(`🛡️  Security: Helmet + Rate Limiter + Joi Validator ACTIVE`);
   console.log(`======================================================\n`);
 });
 
 export default app;
-

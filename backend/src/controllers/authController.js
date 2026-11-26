@@ -2,17 +2,17 @@ import { User } from '../models/User.js';
 import { ApiResponse } from '../utils/apiResponse.js';
 import { ApiError } from '../utils/apiError.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
-import { generateToken } from '../middleware/authMiddleware.js';
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken
+} from '../middleware/authMiddleware.js';
 
 // @desc    Register a new user in MongoDB
 // @route   POST /api/auth/register
 // @access  Public
 export const registerUser = asyncHandler(async (req, res) => {
   const { fullName, email, password, phone, address, pincode, city, state } = req.body;
-
-  if (!fullName || !email || !password) {
-    throw new ApiError(400, 'Full name, email, and password are required.');
-  }
 
   const existingUser = await User.findOne({ email: email.toLowerCase() });
   if (existingUser) {
@@ -28,10 +28,16 @@ export const registerUser = asyncHandler(async (req, res) => {
     pincode: pincode || '110001',
     city: city || 'New Delhi',
     state: state || 'Delhi',
-    membershipTier: 'BookVilla Rasika Patron'
+    membershipTier: 'BookVilla Rasika Patron',
+    role: 'user'
   });
 
-  const token = generateToken(user._id, user.email);
+  const accessToken = generateAccessToken(user._id, user.role);
+  const refreshToken = generateRefreshToken(user._id);
+
+  // Save refresh token to user in MongoDB
+  user.refreshToken = refreshToken;
+  await user.save();
 
   res.status(201).json(
     new ApiResponse(
@@ -52,31 +58,34 @@ export const registerUser = asyncHandler(async (req, res) => {
           wishlist: user.wishlist,
           createdAt: user.createdAt
         },
-        token
+        token: accessToken,
+        accessToken,
+        refreshToken
       },
       'User registered and saved to MongoDB successfully.'
     )
   );
 });
 
-// @desc    Authenticate user and get token
+// @desc    Authenticate user and issue JWT Access & Refresh tokens
 // @route   POST /api/auth/login
 // @access  Public
 export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    throw new ApiError(400, 'Please provide both email and password.');
-  }
-
-  // Find user and explicitly select password hash
-  const user = await User.findOne({ email: email.toLowerCase().trim() }).select('+password');
+  // Find user and explicitly select password and refreshToken
+  const user = await User.findOne({ email: email.toLowerCase().trim() }).select('+password +refreshToken');
 
   if (!user || !(await user.matchPassword(password))) {
     throw new ApiError(401, 'Invalid email or password. Please verify your credentials.');
   }
 
-  const token = generateToken(user._id, user.email);
+  const accessToken = generateAccessToken(user._id, user.role);
+  const refreshToken = generateRefreshToken(user._id);
+
+  // Update refresh token in MongoDB
+  user.refreshToken = refreshToken;
+  await user.save();
 
   res.status(200).json(
     new ApiResponse(
@@ -97,11 +106,66 @@ export const loginUser = asyncHandler(async (req, res) => {
           wishlist: user.wishlist,
           createdAt: user.createdAt
         },
-        token
+        token: accessToken,
+        accessToken,
+        refreshToken
       },
       'Logged in successfully.'
     )
   );
+});
+
+// @desc    Refresh access token using long-lived refresh token
+// @route   POST /api/auth/refresh-token
+// @access  Public
+export const refreshAccessToken = asyncHandler(async (req, res) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    throw new ApiError(400, 'Refresh token is required.');
+  }
+
+  let decoded;
+  try {
+    decoded = verifyRefreshToken(refreshToken);
+  } catch (err) {
+    throw new ApiError(401, 'Invalid or expired refresh token. Please sign in again.');
+  }
+
+  const user = await User.findById(decoded.id).select('+refreshToken');
+  if (!user || user.refreshToken !== refreshToken) {
+    throw new ApiError(401, 'Invalid refresh token session. Token has been revoked or rotated.');
+  }
+
+  // Issue new access token and rotate refresh token
+  const newAccessToken = generateAccessToken(user._id, user.role);
+  const newRefreshToken = generateRefreshToken(user._id);
+
+  user.refreshToken = newRefreshToken;
+  await user.save();
+
+  res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        token: newAccessToken,
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken
+      },
+      'Access token refreshed successfully.'
+    )
+  );
+});
+
+// @desc    Logout user and invalidate refresh token
+// @route   POST /api/auth/logout
+// @access  Private
+export const logoutUser = asyncHandler(async (req, res) => {
+  if (req.user) {
+    await User.findByIdAndUpdate(req.user._id, { $unset: { refreshToken: 1 } });
+  }
+
+  res.status(200).json(new ApiResponse(200, null, 'Logged out successfully. Refresh session cleared.'));
 });
 
 // @desc    Get user profile from MongoDB

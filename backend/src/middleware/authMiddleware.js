@@ -4,15 +4,33 @@ import { ApiError } from '../utils/apiError.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'bookvilla_secure_jwt_secret_key_2026_india';
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'bookvilla_secure_refresh_secret_key_2026_india';
 
-// Generate standard JWT token for user session
-export const generateToken = (userId, email) => {
-  return jwt.sign({ id: userId, email }, JWT_SECRET, {
-    expiresIn: '30d'
+// Generate standard access token (short-lived, 1 hour)
+export const generateAccessToken = (userId, role = 'user') => {
+  return jwt.sign({ id: userId, role }, JWT_SECRET, {
+    expiresIn: process.env.JWT_ACCESS_EXPIRE || '1h'
   });
 };
 
-// Protect middleware to verify Bearer token
+// Generate refresh token (long-lived, 30 days)
+export const generateRefreshToken = (userId) => {
+  return jwt.sign({ id: userId }, JWT_REFRESH_SECRET, {
+    expiresIn: process.env.JWT_REFRESH_EXPIRE || '30d'
+  });
+};
+
+// Backwards compatibility helper
+export const generateToken = (userId, email) => {
+  return generateAccessToken(userId);
+};
+
+// Verify refresh token
+export const verifyRefreshToken = (token) => {
+  return jwt.verify(token, JWT_REFRESH_SECRET);
+};
+
+// Protect middleware to verify Bearer access token
 export const protect = asyncHandler(async (req, res, next) => {
   let token;
 
@@ -30,7 +48,10 @@ export const protect = asyncHandler(async (req, res, next) => {
       }
       return next();
     } catch (error) {
-      throw new ApiError(401, 'Not authorized. Invalid or expired token.');
+      if (error.name === 'TokenExpiredError') {
+        throw new ApiError(401, 'Access token has expired. Please refresh using /api/auth/refresh-token');
+      }
+      throw new ApiError(401, 'Not authorized. Invalid access token.');
     }
   }
 
@@ -39,11 +60,21 @@ export const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-// Admin role verification
-export const adminOnly = (req, res, next) => {
-  if (req.user && req.user.role === 'admin') {
+// Role-Based Authorization Middleware (RBAC)
+export const authorizeRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      throw new ApiError(401, 'Authentication required for this operation.');
+    }
+    if (!roles.includes(req.user.role)) {
+      throw new ApiError(
+        403,
+        `Forbidden: Role '${req.user.role}' is not authorized to access this resource. Required roles: ${roles.join(', ')}`
+      );
+    }
     next();
-  } else {
-    throw new ApiError(403, 'Forbidden. Admin privileges required.');
-  }
+  };
 };
+
+export const adminOnly = authorizeRoles('admin');
+export const curatorOrAdmin = authorizeRoles('admin', 'curator');

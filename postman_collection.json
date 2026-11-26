@@ -1,0 +1,205 @@
+{
+  "info": {
+    "_postman_id": "bookvilla-api-v1-collection",
+    "name": "BookVilla RESTful API Collection",
+    "description": "Comprehensive Postman collection for testing BookVilla's production API endpoints, including JWT authentication, refresh tokens, role-based authorization, CRUD operations, aggregation pipelines, and Multer file uploads.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refreshToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Devanshu Sen\",\n  \"email\": \"devanshu.sen@example.in\",\n  \"password\": \"BookVilla2026!\",\n  \"phone\": \"+91 98123 45678\",\n  \"address\": \"42 Park Street, Kolkata\",\n  \"pincode\": \"700016\",\n  \"city\": \"Kolkata\",\n  \"state\": \"West Bengal\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/register", "host": ["{{baseUrl}}"], "path": ["api", "auth", "register"] }
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"rahul.pandit@bookvilla.in\",\n  \"password\": \"BookVilla2026!\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api", "auth", "login"] }
+          }
+        },
+        {
+          "name": "Refresh Access Token",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/refresh-token", "host": ["{{baseUrl}}"], "path": ["api", "auth", "refresh-token"] }
+          }
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/auth/profile", "host": ["{{baseUrl}}"], "path": ["api", "auth", "profile"] }
+          }
+        },
+        {
+          "name": "Logout User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/api/auth/logout", "host": ["{{baseUrl}}"], "path": ["api", "auth", "logout"] }
+          }
+        },
+        {
+          "name": "List All Registered Users",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/auth/users", "host": ["{{baseUrl}}"], "path": ["api", "auth", "users"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Books",
+      "item": [
+        {
+          "name": "Get All Books (Paginated & Filtered)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/books?page=1&limit=6&sortBy=featured",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "books"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "6" },
+                { "key": "sortBy", "value": "featured" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Books",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/books?search=Tagore",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "books"],
+              "query": [{ "key": "search", "value": "Tagore" }]
+            }
+          }
+        },
+        {
+          "name": "Get Single Book by ID or Slug",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/books/god-of-small-things", "host": ["{{baseUrl}}"], "path": ["api", "books", "god-of-small-things"] }
+          }
+        },
+        {
+          "name": "Add Book Review",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userName\": \"Siddhartha Sen\",\n  \"rating\": 5,\n  \"comment\": \"Exceptional printing and unforgettable prose.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/books/god-of-small-things/reviews", "host": ["{{baseUrl}}"], "path": ["api", "books", "god-of-small-things", "reviews"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/categories", "host": ["{{baseUrl}}"], "path": ["api", "categories"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Get All Orders",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/orders", "host": ["{{baseUrl}}"], "path": ["api", "orders"] }
+          }
+        },
+        {
+          "name": "Create New Order",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"title\": \"The God of Small Things\",\n      \"price\": 399,\n      \"quantity\": 1\n    }\n  ],\n  \"shippingAddress\": {\n    \"fullName\": \"Rahul Pandit\",\n    \"address\": \"Flat 101, Gulmohar Enclave, MG Road\",\n    \"city\": \"New Delhi\",\n    \"state\": \"Delhi\",\n    \"pincode\": \"110001\",\n    \"phone\": \"+91 98765 43210\"\n  },\n  \"paymentMethod\": \"UPI\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/orders", "host": ["{{baseUrl}}"], "path": ["api", "orders"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Analytics & Diagnostics",
+      "item": [
+        {
+          "name": "API & MongoDB Health Check",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/health", "host": ["{{baseUrl}}"], "path": ["api", "health"] }
+          }
+        },
+        {
+          "name": "MongoDB Aggregation Overview",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/stats/overview", "host": ["{{baseUrl}}"], "path": ["api", "stats", "overview"] }
+          }
+        },
+        {
+          "name": "Category Distribution Stats",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/stats/categories", "host": ["{{baseUrl}}"], "path": ["api", "stats", "categories"] }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -59,8 +59,12 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['user', 'admin'],
+      enum: ['user', 'curator', 'admin'],
       default: 'user'
+    },
+    refreshToken: {
+      type: String,
+      select: false
     },
     wishlist: [
       {
@@ -90,3 +94,4 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 export const User = mongoose.model('User', userSchema);
+

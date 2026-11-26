@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "test": "node tests/api.test.js",
     "seed": "node src/seed/seeder.js",
     "seed:destroy": "node src/seed/seeder.js -d"
   },
@@ -30,6 +31,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "express-rate-limit": "^8.7.5",
+    "helmet": "^8.3.0",
+    "joi": "^18.3.2",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^8.7.1",
     "morgan": "^1.10.0",

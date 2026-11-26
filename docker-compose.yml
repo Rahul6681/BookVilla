@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # MongoDB Database Service
+  mongodb:
+    image: mongo:7.0
+    container_name: bookvilla-mongodb
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_DATABASE: bookvilla
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - bookvilla-network
+
+  # Express REST API Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: bookvilla-backend
+    restart: always
+    ports:
+      - '5000:5000'
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      MONGO_URI: mongodb://mongodb:27017/bookvilla
+      JWT_SECRET: bookvilla_docker_jwt_secret_key_2026
+      JWT_REFRESH_SECRET: bookvilla_docker_jwt_refresh_secret_key_2026
+      CLIENT_URL: http://localhost:3000
+    depends_on:
+      - mongodb
+    networks:
+      - bookvilla-network
+
+volumes:
+  mongo-data:
+    driver: local
+
+networks:
+  bookvilla-network:
+    driver: bridge
