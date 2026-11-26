@@ -97,17 +97,6 @@ export default function Portal() {
 
         <div className="portal-header-actions">
           <a
-            href="http://localhost:5000/api-docs"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-primary"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
-          >
-            <span>📖 RESTful API Documentation (OpenAPI)</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          </a>
-
-          <a
             href="http://localhost:5000/api/health"
             target="_blank"
             rel="noopener noreferrer"
